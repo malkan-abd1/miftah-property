@@ -14,7 +14,229 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      activity_logs: {
+        Row: {
+          action: string
+          actor_name: string | null
+          actor_role: string | null
+          created_at: string
+          detail: string | null
+          id: string
+          property_id: string | null
+          workspace_id: string
+        }
+        Insert: {
+          action: string
+          actor_name?: string | null
+          actor_role?: string | null
+          created_at?: string
+          detail?: string | null
+          id?: string
+          property_id?: string | null
+          workspace_id: string
+        }
+        Update: {
+          action?: string
+          actor_name?: string | null
+          actor_role?: string | null
+          created_at?: string
+          detail?: string | null
+          id?: string
+          property_id?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activity_logs_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      properties: {
+        Row: {
+          address_details: string | null
+          area: string | null
+          created_at: string
+          created_by: string | null
+          currency: string
+          deed_type: string | null
+          direction: string | null
+          facade: string | null
+          facebook_url: string | null
+          features: string[]
+          finishing: string | null
+          floor: number | null
+          governorate: string | null
+          has_elevator24: boolean
+          has_garden: boolean
+          has_roof: boolean
+          has_roof_garage: boolean
+          has_salon: boolean
+          id: string
+          is_direct: boolean
+          is_duplex: boolean
+          is_suspended: boolean
+          listing_type: string | null
+          notes: string | null
+          office_name: string | null
+          office_phone: string | null
+          owner_name: string | null
+          owner_phone: string | null
+          ownership_notes: string | null
+          ownership_type: string | null
+          partners: number | null
+          photos: string[]
+          price: number | null
+          price_period: string | null
+          property_type: string | null
+          ref_no: number
+          rent_end_date: string | null
+          rooms: number | null
+          size: number | null
+          status: string
+          title: string | null
+          updated_at: string
+          updated_by: string | null
+          videos: string[]
+          workspace_id: string
+        }
+        Insert: {
+          address_details?: string | null
+          area?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          deed_type?: string | null
+          direction?: string | null
+          facade?: string | null
+          facebook_url?: string | null
+          features?: string[]
+          finishing?: string | null
+          floor?: number | null
+          governorate?: string | null
+          has_elevator24?: boolean
+          has_garden?: boolean
+          has_roof?: boolean
+          has_roof_garage?: boolean
+          has_salon?: boolean
+          id?: string
+          is_direct?: boolean
+          is_duplex?: boolean
+          is_suspended?: boolean
+          listing_type?: string | null
+          notes?: string | null
+          office_name?: string | null
+          office_phone?: string | null
+          owner_name?: string | null
+          owner_phone?: string | null
+          ownership_notes?: string | null
+          ownership_type?: string | null
+          partners?: number | null
+          photos?: string[]
+          price?: number | null
+          price_period?: string | null
+          property_type?: string | null
+          ref_no?: number
+          rent_end_date?: string | null
+          rooms?: number | null
+          size?: number | null
+          status?: string
+          title?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          videos?: string[]
+          workspace_id: string
+        }
+        Update: {
+          address_details?: string | null
+          area?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          deed_type?: string | null
+          direction?: string | null
+          facade?: string | null
+          facebook_url?: string | null
+          features?: string[]
+          finishing?: string | null
+          floor?: number | null
+          governorate?: string | null
+          has_elevator24?: boolean
+          has_garden?: boolean
+          has_roof?: boolean
+          has_roof_garage?: boolean
+          has_salon?: boolean
+          id?: string
+          is_direct?: boolean
+          is_duplex?: boolean
+          is_suspended?: boolean
+          listing_type?: string | null
+          notes?: string | null
+          office_name?: string | null
+          office_phone?: string | null
+          owner_name?: string | null
+          owner_phone?: string | null
+          ownership_notes?: string | null
+          ownership_type?: string | null
+          partners?: number | null
+          photos?: string[]
+          price?: number | null
+          price_period?: string | null
+          property_type?: string | null
+          ref_no?: number
+          rent_end_date?: string | null
+          rooms?: number | null
+          size?: number | null
+          status?: string
+          title?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          videos?: string[]
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "properties_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workspaces: {
+        Row: {
+          code: string
+          created_at: string
+          employee_hash: string
+          id: string
+          manager_hash: string
+          name: string
+          owner_name: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          employee_hash: string
+          id?: string
+          manager_hash: string
+          name: string
+          owner_name?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          employee_hash?: string
+          id?: string
+          manager_hash?: string
+          name?: string
+          owner_name?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
