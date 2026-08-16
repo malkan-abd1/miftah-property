@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as PropertiesIndexRouteImport } from './routes/properties/index'
 import { Route as PropertiesIdRouteImport } from './routes/properties/$id'
 import { Route as PropertiesNewRouteImport } from './routes/properties/new'
@@ -18,6 +19,11 @@ import { Route as PropertiesIdEditRouteImport } from './routes/properties/$id.ed
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PropertiesIndexRoute = PropertiesIndexRouteImport.update({
@@ -43,6 +49,7 @@ const PropertiesIdEditRoute = PropertiesIdEditRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/settings': typeof SettingsRoute
   '/properties/$id': typeof PropertiesIdRouteWithChildren
   '/properties/new': typeof PropertiesNewRoute
   '/properties/': typeof PropertiesIndexRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/settings': typeof SettingsRoute
   '/properties/$id': typeof PropertiesIdRouteWithChildren
   '/properties/new': typeof PropertiesNewRoute
   '/properties': typeof PropertiesIndexRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/settings': typeof SettingsRoute
   '/properties/$id': typeof PropertiesIdRouteWithChildren
   '/properties/new': typeof PropertiesNewRoute
   '/properties/': typeof PropertiesIndexRoute
@@ -67,6 +76,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/settings'
     | '/properties/$id'
     | '/properties/new'
     | '/properties/'
@@ -74,6 +84,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/settings'
     | '/properties/$id'
     | '/properties/new'
     | '/properties'
@@ -81,6 +92,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/settings'
     | '/properties/$id'
     | '/properties/new'
     | '/properties/'
@@ -89,6 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SettingsRoute: typeof SettingsRoute
   PropertiesIdRoute: typeof PropertiesIdRouteWithChildren
   PropertiesNewRoute: typeof PropertiesNewRoute
   PropertiesIndexRoute: typeof PropertiesIndexRoute
@@ -101,6 +114,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/properties/': {
@@ -148,6 +168,7 @@ const PropertiesIdRouteWithChildren = PropertiesIdRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SettingsRoute: SettingsRoute,
   PropertiesIdRoute: PropertiesIdRouteWithChildren,
   PropertiesNewRoute: PropertiesNewRoute,
   PropertiesIndexRoute: PropertiesIndexRoute,
