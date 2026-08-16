@@ -10,33 +10,101 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as PropertiesIndexRouteImport } from './routes/properties/index'
+import { Route as PropertiesIdRouteImport } from './routes/properties/$id'
+import { Route as PropertiesNewRouteImport } from './routes/properties/new'
+import { Route as PropertiesIdEditRouteImport } from './routes/properties/$id.edit'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PropertiesIndexRoute = PropertiesIndexRouteImport.update({
+  id: '/properties/',
+  path: '/properties/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PropertiesIdRoute = PropertiesIdRouteImport.update({
+  id: '/properties/$id',
+  path: '/properties/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PropertiesNewRoute = PropertiesNewRouteImport.update({
+  id: '/properties/new',
+  path: '/properties/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PropertiesIdEditRoute = PropertiesIdEditRouteImport.update({
+  id: '/edit',
+  path: '/edit',
+  getParentRoute: () => PropertiesIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/settings': typeof SettingsRoute
+  '/properties/$id': typeof PropertiesIdRouteWithChildren
+  '/properties/new': typeof PropertiesNewRoute
+  '/properties/': typeof PropertiesIndexRoute
+  '/properties/$id/edit': typeof PropertiesIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/settings': typeof SettingsRoute
+  '/properties/$id': typeof PropertiesIdRouteWithChildren
+  '/properties/new': typeof PropertiesNewRoute
+  '/properties': typeof PropertiesIndexRoute
+  '/properties/$id/edit': typeof PropertiesIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/settings': typeof SettingsRoute
+  '/properties/$id': typeof PropertiesIdRouteWithChildren
+  '/properties/new': typeof PropertiesNewRoute
+  '/properties/': typeof PropertiesIndexRoute
+  '/properties/$id/edit': typeof PropertiesIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/settings'
+    | '/properties/$id'
+    | '/properties/new'
+    | '/properties/'
+    | '/properties/$id/edit'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/settings'
+    | '/properties/$id'
+    | '/properties/new'
+    | '/properties'
+    | '/properties/$id/edit'
+  id:
+    | '__root__'
+    | '/'
+    | '/settings'
+    | '/properties/$id'
+    | '/properties/new'
+    | '/properties/'
+    | '/properties/$id/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SettingsRoute: typeof SettingsRoute
+  PropertiesIdRoute: typeof PropertiesIdRouteWithChildren
+  PropertiesNewRoute: typeof PropertiesNewRoute
+  PropertiesIndexRoute: typeof PropertiesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +116,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/properties/': {
+      id: '/properties/'
+      path: '/properties'
+      fullPath: '/properties/'
+      preLoaderRoute: typeof PropertiesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/properties/$id': {
+      id: '/properties/$id'
+      path: '/properties/$id'
+      fullPath: '/properties/$id'
+      preLoaderRoute: typeof PropertiesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/properties/new': {
+      id: '/properties/new'
+      path: '/properties/new'
+      fullPath: '/properties/new'
+      preLoaderRoute: typeof PropertiesNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/properties/$id/edit': {
+      id: '/properties/$id/edit'
+      path: '/edit'
+      fullPath: '/properties/$id/edit'
+      preLoaderRoute: typeof PropertiesIdEditRouteImport
+      parentRoute: typeof PropertiesIdRoute
+    }
   }
 }
 
+interface PropertiesIdRouteChildren {
+  PropertiesIdEditRoute: typeof PropertiesIdEditRoute
+}
+
+const PropertiesIdRouteChildren: PropertiesIdRouteChildren = {
+  PropertiesIdEditRoute: PropertiesIdEditRoute,
+}
+
+const PropertiesIdRouteWithChildren = PropertiesIdRoute._addFileChildren(
+  PropertiesIdRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SettingsRoute: SettingsRoute,
+  PropertiesIdRoute: PropertiesIdRouteWithChildren,
+  PropertiesNewRoute: PropertiesNewRoute,
+  PropertiesIndexRoute: PropertiesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
