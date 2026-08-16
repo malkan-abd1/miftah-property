@@ -37,7 +37,10 @@ export async function hashPassword(password: string) {
 
 export async function verifyPassword(password: string, stored: string) {
   try {
-    const [, iterStr, saltStr, hashStr] = stored.split("$");
+    const parts = stored.split("$");
+    const iterStr = parts[1] ?? String(ITERATIONS);
+    const saltStr = parts[2] ?? "";
+    const hashStr = parts[3] ?? "";
     const salt = fromB64url(saltStr);
     const key = await crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, [
       "deriveBits",
