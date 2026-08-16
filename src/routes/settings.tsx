@@ -25,7 +25,7 @@ export const Route = createFileRoute("/settings")({
 });
 
 function SettingsPage() {
-  const { session, clear } = useSession();
+  const { session, setSession } = useSession();
   const navigate = useNavigate();
   const fetchWs = useServerFn(getWorkspace);
   const fetchActivity = useServerFn(getActivity);
@@ -79,7 +79,7 @@ function SettingsPage() {
               variant="destructive"
               className="mt-2 w-full"
               onClick={() => {
-                clear();
+                setSession(null);
                 navigate({ to: "/", replace: true });
               }}
             >
