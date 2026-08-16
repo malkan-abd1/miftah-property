@@ -190,7 +190,10 @@ function PropertiesPage() {
   }, [data, f]);
 
   async function shareAll() {
-    if (!results.length) return toast.error("لا توجد نتائج للمشاركة");
+    if (!results.length) {
+      toast.error("لا توجد نتائج للمشاركة");
+      return;
+    }
     await shareText(formatSearchResultsForShare(results));
   }
 
