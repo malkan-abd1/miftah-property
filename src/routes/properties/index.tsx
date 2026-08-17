@@ -268,11 +268,16 @@ function PropertiesPage() {
                   />
                 ))}
               </div>
-              <button
+              <LiquidButton
                 type="button"
-                className="sm:col-span-3 text-sm text-muted-foreground underline-offset-4 hover:underline"
+                variant="ghost"
+                size="sm"
+                className="sm:col-span-3"
                 onClick={() => setF(initialFilters)}
               >
+                إعادة ضبط الفلاتر
+              </LiquidButton>
+
                 إعادة ضبط الفلاتر
               </button>
             </GlassCardContent>
