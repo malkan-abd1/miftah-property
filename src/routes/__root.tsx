@@ -12,7 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SessionProvider } from "@/lib/session";
-import { GlassFilter } from "@/components/ui/liquid-glass-button";
+import { GlassFilter, LiquidButton } from "@/components/ui/liquid-glass-button";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
