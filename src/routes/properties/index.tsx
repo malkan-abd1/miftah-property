@@ -277,9 +277,6 @@ function PropertiesPage() {
               >
                 إعادة ضبط الفلاتر
               </LiquidButton>
-
-                إعادة ضبط الفلاتر
-              </button>
             </GlassCardContent>
           </GlassCard>
         )}
