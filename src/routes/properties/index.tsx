@@ -96,18 +96,17 @@ function Chip({
   onClick: () => void;
 }) {
   return (
-    <button
+    <LiquidButton
       type="button"
+      size="sm"
+      variant={active ? "primary" : "default"}
       onClick={onClick}
-      className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
-        active
-          ? "border-transparent bg-primary text-primary-foreground"
-          : "border-[var(--glass-ring)] bg-[var(--glass-tint)] text-muted-foreground"
-      }`}
+      className={active ? "" : "text-muted-foreground"}
     >
       {label}
-    </button>
+    </LiquidButton>
   );
+
 }
 
 function SelectFilter({
