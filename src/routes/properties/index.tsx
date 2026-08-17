@@ -123,7 +123,7 @@ function SelectFilter({
 }) {
   return (
     <select
-      className="glass-field appearance-none [&>option]:bg-[#1b2148] [&>option]:text-white"
+      className="glass-field appearance-none [&>option]:bg-background [&>option]:text-foreground"
       value={value}
       onChange={(e) => onChange(e.target.value)}
     >

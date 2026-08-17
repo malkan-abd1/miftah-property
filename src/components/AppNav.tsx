@@ -70,7 +70,7 @@ export function AppNav() {
                 <span
                   className={cn(
                     "relative z-10 flex items-center gap-2 text-sm font-semibold",
-                    active ? "text-white" : "text-foreground",
+                    active ? "text-primary-foreground" : "text-foreground",
                   )}
                 >
                   {item.icon}
