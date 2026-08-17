@@ -172,12 +172,14 @@ function LoginPage() {
         </GlassCardContent>
       </GlassCard>
 
-      <button
-        className="text-sm text-muted-foreground underline-offset-4 hover:underline"
+      <LiquidButton
+        variant="ghost"
+        size="sm"
         onClick={() => setMode(mode === "login" ? "create" : "login")}
       >
         {mode === "login" ? "ليس لديك مكتب؟ أنشئ مساحة عمل جديدة" : "لديك رمز مكتب؟ سجّل الدخول"}
-      </button>
+      </LiquidButton>
+
     </div>
   );
 }
