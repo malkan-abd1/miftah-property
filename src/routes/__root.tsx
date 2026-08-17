@@ -45,19 +45,19 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         <h1 className="text-xl font-semibold">حدث خطأ غير متوقع</h1>
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
         <div className="mt-6 flex justify-center gap-2">
-          <button
+          <LiquidButton
             onClick={() => {
               router.invalidate();
               reset();
             }}
-            className="glass-panel rounded-full px-5 py-2 text-sm font-medium"
           >
             إعادة المحاولة
-          </button>
-          <a href="/" className="glass-panel rounded-full px-5 py-2 text-sm font-medium">
-            الرئيسية
-          </a>
+          </LiquidButton>
+          <LiquidButton asChild>
+            <a href="/">الرئيسية</a>
+          </LiquidButton>
         </div>
+
       </div>
     </div>
   );
