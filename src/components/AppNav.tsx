@@ -88,14 +88,17 @@ export function AppNav() {
           );
         })}
         <li>
-          <button
+          <LiquidButton
+            variant="ghost"
+            size="icon"
             onClick={() => setSession(null)}
             aria-label="تسجيل الخروج"
-            className="flex h-12 w-12 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-destructive"
+            className="h-12 w-12 text-muted-foreground hover:text-destructive"
           >
             <LogOut className="size-5" />
-          </button>
+          </LiquidButton>
         </li>
+
       </ul>
     </nav>
   );
