@@ -12,7 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SessionProvider } from "@/lib/session";
-import { GlassFilter } from "@/components/ui/liquid-glass-button";
+import { GlassFilter, LiquidButton } from "@/components/ui/liquid-glass-button";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -45,19 +45,19 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         <h1 className="text-xl font-semibold">حدث خطأ غير متوقع</h1>
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
         <div className="mt-6 flex justify-center gap-2">
-          <button
+          <LiquidButton
             onClick={() => {
               router.invalidate();
               reset();
             }}
-            className="glass-panel rounded-full px-5 py-2 text-sm font-medium"
           >
             إعادة المحاولة
-          </button>
-          <a href="/" className="glass-panel rounded-full px-5 py-2 text-sm font-medium">
-            الرئيسية
-          </a>
+          </LiquidButton>
+          <LiquidButton asChild>
+            <a href="/">الرئيسية</a>
+          </LiquidButton>
         </div>
+
       </div>
     </div>
   );
@@ -68,10 +68,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { name: "theme-color", content: "#131a3a" },
+      { name: "theme-color", content: "#ffffff" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-title", content: "مفتاح" },
-      { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "default" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [

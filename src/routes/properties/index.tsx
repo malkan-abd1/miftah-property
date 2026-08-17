@@ -96,18 +96,17 @@ function Chip({
   onClick: () => void;
 }) {
   return (
-    <button
+    <LiquidButton
       type="button"
+      size="sm"
+      variant={active ? "primary" : "default"}
       onClick={onClick}
-      className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
-        active
-          ? "border-transparent bg-primary text-primary-foreground"
-          : "border-[var(--glass-ring)] bg-[var(--glass-tint)] text-muted-foreground"
-      }`}
+      className={active ? "" : "text-muted-foreground"}
     >
       {label}
-    </button>
+    </LiquidButton>
   );
+
 }
 
 function SelectFilter({
@@ -123,7 +122,7 @@ function SelectFilter({
 }) {
   return (
     <select
-      className="glass-field appearance-none [&>option]:bg-[#1b2148] [&>option]:text-white"
+      className="glass-field appearance-none [&>option]:bg-background [&>option]:text-foreground"
       value={value}
       onChange={(e) => onChange(e.target.value)}
     >
@@ -269,13 +268,15 @@ function PropertiesPage() {
                   />
                 ))}
               </div>
-              <button
+              <LiquidButton
                 type="button"
-                className="sm:col-span-3 text-sm text-muted-foreground underline-offset-4 hover:underline"
+                variant="ghost"
+                size="sm"
+                className="sm:col-span-3"
                 onClick={() => setF(initialFilters)}
               >
                 إعادة ضبط الفلاتر
-              </button>
+              </LiquidButton>
             </GlassCardContent>
           </GlassCard>
         )}

@@ -132,7 +132,7 @@ function Select({
 }) {
   return (
     <select
-      className="glass-field appearance-none [&>option]:bg-[#1b2148] [&>option]:text-white"
+      className="glass-field appearance-none [&>option]:bg-background [&>option]:text-foreground"
       value={value ?? ""}
       onChange={(e) => onChange(e.target.value || null)}
     >
@@ -156,18 +156,17 @@ function Toggle({
   onChange: (v: boolean) => void;
 }) {
   return (
-    <button
+    <LiquidButton
       type="button"
+      size="sm"
+      variant={checked ? "primary" : "default"}
       onClick={() => onChange(!checked)}
-      className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
-        checked
-          ? "border-transparent bg-primary text-primary-foreground"
-          : "border-[var(--glass-ring)] bg-[var(--glass-tint)] text-muted-foreground"
-      }`}
+      className={checked ? "" : "text-muted-foreground"}
     >
       {label}
-    </button>
+    </LiquidButton>
   );
+
 }
 
 export function PropertyForm({
@@ -450,7 +449,7 @@ export function PropertyForm({
                 <button
                   type="button"
                   onClick={() => set("photos", v.photos.filter((x) => x !== p))}
-                  className="absolute left-1 top-1 rounded-full bg-black/60 p-1"
+                  className="absolute left-1 top-1 rounded-full bg-foreground/70 p-1 text-background"
                 >
                   <X className="size-3" />
                 </button>
@@ -465,7 +464,7 @@ export function PropertyForm({
                 <button
                   type="button"
                   onClick={() => set("videos", v.videos.filter((x) => x !== p))}
-                  className="absolute left-1 top-1 rounded-full bg-black/60 p-1"
+                  className="absolute left-1 top-1 rounded-full bg-foreground/70 p-1 text-background"
                 >
                   <X className="size-3" />
                 </button>

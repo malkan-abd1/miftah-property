@@ -64,8 +64,9 @@ function SettingsPage() {
             </div>
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">رمز الدخول</span>
-              <button
-                className="inline-flex items-center gap-2 font-mono text-base font-bold tracking-widest"
+              <LiquidButton
+                size="sm"
+                className="font-mono text-base font-bold tracking-widest"
                 onClick={async () =>
                   (await copyText(ws?.workspace?.code ?? ""))
                     ? toast.success("تم نسخ الرمز")
@@ -73,7 +74,8 @@ function SettingsPage() {
                 }
               >
                 {ws?.workspace?.code ?? "…"} <Copy className="size-4" />
-              </button>
+              </LiquidButton>
+
             </div>
             <LiquidButton
               variant="destructive"
