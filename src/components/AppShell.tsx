@@ -29,7 +29,7 @@ export function AppShell({
 
   return (
     <div className="min-h-dvh pb-28">
-      <header className="sticky top-0 z-30 border-b border-[var(--glass-ring)] bg-[color-mix(in_oklab,black_25%,transparent)] backdrop-blur-xl">
+      <header className="sticky top-0 z-30 border-b border-[var(--glass-ring)] bg-[color-mix(in_oklab,white_70%,transparent)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-5xl items-center gap-3 px-4 py-3">
           <img src={logo.url} alt="مفتاح" className="size-10 rounded-xl object-cover" />
           <div className="min-w-0 flex-1">
