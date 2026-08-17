@@ -156,18 +156,17 @@ function Toggle({
   onChange: (v: boolean) => void;
 }) {
   return (
-    <button
+    <LiquidButton
       type="button"
+      size="sm"
+      variant={checked ? "primary" : "default"}
       onClick={() => onChange(!checked)}
-      className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
-        checked
-          ? "border-transparent bg-primary text-primary-foreground"
-          : "border-[var(--glass-ring)] bg-[var(--glass-tint)] text-muted-foreground"
-      }`}
+      className={checked ? "" : "text-muted-foreground"}
     >
       {label}
-    </button>
+    </LiquidButton>
   );
+
 }
 
 export function PropertyForm({
