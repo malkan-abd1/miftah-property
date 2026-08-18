@@ -56,10 +56,10 @@
   --input: oklch(0.18 0.02 275 / 10%);
   --ring: oklch(0.55 0.19 268);
 
-  --glass-tint: color-mix(in oklab, white 72%, transparent);
-  --glass-ring: color-mix(in oklab, black 10%, transparent);
+  --glass-tint: color-mix(in oklab, white 82%, transparent);
+  --glass-ring: color-mix(in oklab, black 8%, transparent);
   --glass-sheen: linear-gradient(90deg, transparent, color-mix(in oklab, white 90%, transparent), transparent);
-  --glass-shadow: 0 8px 24px -12px oklch(0.2 0.03 275 / 0.35);
+  --glass-shadow: 0 4px 16px -8px oklch(0.2 0.03 275 / 0.2);
   --app-gradient: radial-gradient(120% 90% at 50% 0%, oklch(1 0 0) 0%, oklch(0.985 0.005 270) 55%, oklch(0.965 0.01 268) 100%);
 }
 
@@ -71,15 +71,27 @@
   html {
     -webkit-tap-highlight-color: transparent;
     -webkit-font-smoothing: antialiased;
-    text-rendering: auto;
+    text-rendering: optimizeLegibility;
   }
 
   body {
-    background: var(--app-gradient);
+    background: var(--background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     min-height: 100dvh;
     overscroll-behavior-y: none;
+    position: relative;
+  }
+
+  /* Fixed background hack for performance */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: var(--app-gradient);
+    pointer-events: none;
+    transform: translateZ(0);
   }
 
   input,
@@ -108,18 +120,9 @@ gpt-eng-badge,
   background: var(--glass-tint);
   border: 1px solid var(--glass-ring);
   box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(8px) saturate(140%);
   border-radius: var(--radius-2xl);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+  transform: translateZ(0);
 }
 
 @utility glass-field {

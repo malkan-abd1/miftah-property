@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback, memo } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -86,6 +86,37 @@ const initialFilters: Filters = {
   flags: [],
 };
 
+const PropertyListItem = memo(({ p }: { p: PropertyRecord }) => (
+  <Link to="/properties/$id" params={{ id: p.id }} className="block transform-gpu">
+    <GlassCard className="h-full">
+      <GlassCardContent className="flex gap-3 pt-5">
+        {p.photoUrls?.[0] ? (
+          <img src={p.photoUrls[0]} alt={p.title ?? "عقار"} loading="lazy" className="size-24 rounded-xl object-cover" />
+        ) : (
+          <div className="flex size-24 items-center justify-center rounded-xl bg-[var(--glass-tint)] text-xs text-muted-foreground">
+            بدون صورة
+          </div>
+        )}
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <span>عرض #{p.ref_no}</span>
+            <span className="rounded-full bg-[var(--glass-tint)] px-2 py-0.5">{p.status}</span>
+          </div>
+          <div className="mt-1 truncate font-semibold">
+            {p.title || `${p.property_type ?? ""} ${p.area ?? ""}`}
+          </div>
+          <div className="truncate text-sm text-muted-foreground">
+            {[p.governorate, p.area].filter(Boolean).join(" - ")}
+          </div>
+          <div className="mt-1 text-sm font-semibold">
+            {p.price ? `${p.price.toLocaleString("en-US")} ${p.currency}` : "السعر غير محدد"}
+          </div>
+        </div>
+      </GlassCardContent>
+    </GlassCard>
+  </Link>
+));
+
 function Chip({
   label,
   active,
@@ -106,7 +137,6 @@ function Chip({
       {label}
     </LiquidButton>
   );
-
 }
 
 function SelectFilter({
@@ -148,9 +178,16 @@ function PropertiesPage() {
     enabled: !!session,
   });
 
+  const updateFilter = useCallback((key: keyof Filters, value: any) => {
+    setF(prev => ({ ...prev, [key]: value }));
+  }, []);
+
   const results = useMemo(() => {
     const rows = (data ?? []) as PropertyRecord[];
     const q = f.q.trim();
+    if (!q && !f.listing_type && !f.property_type && !f.status && !f.governorate && !f.area && !f.facade && !f.finishing && !f.currency && !f.minPrice && !f.maxPrice && !f.minSize && !f.maxSize && !f.rooms && !f.floor && !f.features.length && !f.flags.length) {
+        return rows;
+    }
     return rows.filter((p) => {
       if (q) {
         const hay = [
@@ -206,7 +243,7 @@ function PropertiesPage() {
               className="w-full bg-transparent py-2.5 text-sm outline-none"
               placeholder="بحث برقم العرض أو المنطقة أو المالك…"
               value={f.q}
-              onChange={(e) => setF({ ...f, q: e.target.value })}
+              onChange={(e) => updateFilter("q", e.target.value)}
             />
           </div>
           <LiquidButton size="icon" onClick={() => setShowFilters((s) => !s)} aria-label="الفلاتر">
@@ -220,20 +257,20 @@ function PropertiesPage() {
         {showFilters && (
           <GlassCard>
             <GlassCardContent className="grid gap-3 pt-5 sm:grid-cols-3">
-              <SelectFilter value={f.listing_type} onChange={(v) => setF({ ...f, listing_type: v })} options={LISTING_TYPES} placeholder="نوع الإعلان" />
-              <SelectFilter value={f.property_type} onChange={(v) => setF({ ...f, property_type: v })} options={PROPERTY_TYPES} placeholder="نوع العقار" />
-              <SelectFilter value={f.status} onChange={(v) => setF({ ...f, status: v })} options={STATUSES} placeholder="الحالة" />
-              <SelectFilter value={f.governorate} onChange={(v) => setF({ ...f, governorate: v })} options={GOVERNORATES} placeholder="المحافظة" />
-              <input className="glass-field" placeholder="المنطقة" value={f.area} onChange={(e) => setF({ ...f, area: e.target.value })} />
-              <SelectFilter value={f.facade} onChange={(v) => setF({ ...f, facade: v })} options={FACADES} placeholder="الواجهة" />
-              <SelectFilter value={f.finishing} onChange={(v) => setF({ ...f, finishing: v })} options={FINISHINGS} placeholder="الإكساء" />
-              <SelectFilter value={f.currency} onChange={(v) => setF({ ...f, currency: v })} options={CURRENCIES} placeholder="العملة" />
-              <input className="glass-field" type="number" placeholder="عدد الغرف" value={f.rooms} onChange={(e) => setF({ ...f, rooms: e.target.value })} />
-              <input className="glass-field" type="number" placeholder="الطابق" value={f.floor} onChange={(e) => setF({ ...f, floor: e.target.value })} />
-              <input className="glass-field" type="number" placeholder="أقل سعر" value={f.minPrice} onChange={(e) => setF({ ...f, minPrice: e.target.value })} />
-              <input className="glass-field" type="number" placeholder="أعلى سعر" value={f.maxPrice} onChange={(e) => setF({ ...f, maxPrice: e.target.value })} />
-              <input className="glass-field" type="number" placeholder="أقل مساحة" value={f.minSize} onChange={(e) => setF({ ...f, minSize: e.target.value })} />
-              <input className="glass-field" type="number" placeholder="أعلى مساحة" value={f.maxSize} onChange={(e) => setF({ ...f, maxSize: e.target.value })} />
+              <SelectFilter value={f.listing_type} onChange={(v) => updateFilter("listing_type", v)} options={LISTING_TYPES} placeholder="نوع الإعلان" />
+              <SelectFilter value={f.property_type} onChange={(v) => updateFilter("property_type", v)} options={PROPERTY_TYPES} placeholder="نوع العقار" />
+              <SelectFilter value={f.status} onChange={(v) => updateFilter("status", v)} options={STATUSES} placeholder="الحالة" />
+              <SelectFilter value={f.governorate} onChange={(v) => updateFilter("governorate", v)} options={GOVERNORATES} placeholder="المحافظة" />
+              <input className="glass-field" placeholder="المنطقة" value={f.area} onChange={(e) => updateFilter("area", e.target.value)} />
+              <SelectFilter value={f.facade} onChange={(v) => updateFilter("facade", v)} options={FACADES} placeholder="الواجهة" />
+              <SelectFilter value={f.finishing} onChange={(v) => updateFilter("finishing", v)} options={FINISHINGS} placeholder="الإكساء" />
+              <SelectFilter value={f.currency} onChange={(v) => updateFilter("currency", v)} options={CURRENCIES} placeholder="العملة" />
+              <input className="glass-field" type="number" placeholder="عدد الغرف" value={f.rooms} onChange={(e) => updateFilter("rooms", e.target.value)} />
+              <input className="glass-field" type="number" placeholder="الطابق" value={f.floor} onChange={(e) => updateFilter("floor", e.target.value)} />
+              <input className="glass-field" type="number" placeholder="أقل سعر" value={f.minPrice} onChange={(e) => updateFilter("minPrice", e.target.value)} />
+              <input className="glass-field" type="number" placeholder="أعلى سعر" value={f.maxPrice} onChange={(e) => updateFilter("maxPrice", e.target.value)} />
+              <input className="glass-field" type="number" placeholder="أقل مساحة" value={f.minSize} onChange={(e) => updateFilter("minSize", e.target.value)} />
+              <input className="glass-field" type="number" placeholder="أعلى مساحة" value={f.maxSize} onChange={(e) => updateFilter("maxSize", e.target.value)} />
               <div className="sm:col-span-3 flex flex-wrap gap-2">
                 {FLAGS.map((fl) => (
                   <Chip
@@ -241,12 +278,9 @@ function PropertiesPage() {
                     label={fl.label}
                     active={f.flags.includes(fl.key as string)}
                     onClick={() =>
-                      setF({
-                        ...f,
-                        flags: f.flags.includes(fl.key as string)
+                      updateFilter("flags", f.flags.includes(fl.key as string)
                           ? f.flags.filter((x) => x !== fl.key)
-                          : [...f.flags, fl.key as string],
-                      })
+                          : [...f.flags, fl.key as string])
                     }
                   />
                 ))}
@@ -258,12 +292,9 @@ function PropertiesPage() {
                     label={x}
                     active={f.features.includes(x)}
                     onClick={() =>
-                      setF({
-                        ...f,
-                        features: f.features.includes(x)
+                      updateFilter("features", f.features.includes(x)
                           ? f.features.filter((y) => y !== x)
-                          : [...f.features, x],
-                      })
+                          : [...f.features, x])
                     }
                   />
                 ))}
@@ -292,34 +323,7 @@ function PropertiesPage() {
 
         <div className="grid gap-3 sm:grid-cols-2">
           {results.map((p) => (
-            <Link key={p.id} to="/properties/$id" params={{ id: p.id }} className="block">
-              <GlassCard className="h-full">
-                <GlassCardContent className="flex gap-3 pt-5">
-                  {p.photoUrls?.[0] ? (
-                    <img src={p.photoUrls[0]} alt={p.title ?? "عقار"} loading="lazy" className="size-24 rounded-xl object-cover" />
-                  ) : (
-                    <div className="flex size-24 items-center justify-center rounded-xl bg-[var(--glass-tint)] text-xs text-muted-foreground">
-                      بدون صورة
-                    </div>
-                  )}
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <span>عرض #{p.ref_no}</span>
-                      <span className="rounded-full bg-[var(--glass-tint)] px-2 py-0.5">{p.status}</span>
-                    </div>
-                    <div className="mt-1 truncate font-semibold">
-                      {p.title || `${p.property_type ?? ""} ${p.area ?? ""}`}
-                    </div>
-                    <div className="truncate text-sm text-muted-foreground">
-                      {[p.governorate, p.area].filter(Boolean).join(" - ")}
-                    </div>
-                    <div className="mt-1 text-sm font-semibold">
-                      {p.price ? `${p.price.toLocaleString("en-US")} ${p.currency}` : "السعر غير محدد"}
-                    </div>
-                  </div>
-                </GlassCardContent>
-              </GlassCard>
-            </Link>
+            <PropertyListItem key={p.id} p={p} />
           ))}
         </div>
       </div>
