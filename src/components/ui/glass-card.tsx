@@ -1,20 +1,22 @@
 import { cn } from "@/lib/utils";
+import React from "react";
 
-function GlassCard({ className, ...props }: React.ComponentProps<"div">) {
+const GlassCard = React.memo(function GlassCard({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="glass-card"
       className={cn(
-        "relative flex flex-col gap-5 overflow-hidden rounded-3xl border border-[var(--glass-ring)] bg-[var(--glass-tint)] py-5 text-card-foreground shadow-[var(--glass-shadow)] backdrop-blur-2xl",
+        "relative flex flex-col gap-5 overflow-hidden rounded-3xl border border-[var(--glass-ring)] bg-[var(--glass-tint)] py-5 text-card-foreground shadow-[var(--glass-shadow)] transition-transform duration-200 active:scale-[0.99] sm:backdrop-blur-xl",
+        "transform-gpu will-change-transform",
         className,
       )}
       {...props}
     >
-      <span className="pointer-events-none absolute inset-x-6 top-0 h-px bg-[var(--glass-sheen)]" />
+      <span className="pointer-events-none absolute inset-x-6 top-0 h-px bg-[var(--glass-sheen)] opacity-50" />
       {props.children}
     </div>
   );
-}
+});
 
 function GlassCardHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
