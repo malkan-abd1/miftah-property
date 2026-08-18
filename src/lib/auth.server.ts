@@ -58,11 +58,11 @@ export async function verifyPassword(password: string, stored: string) {
 }
 
 function secret() {
-  return (
-    process.env["SUPABASE_SERVICE_ROLE_KEY"] ||
-    process.env["SUPABASE_URL"] ||
-    "meftah-dev-secret"
-  );
+  const value = process.env["SESSION_SECRET"];
+  if (!value || value.length < 32) {
+    throw new Error("SESSION_SECRET is not configured");
+  }
+  return value;
 }
 
 async function hmacKey() {
