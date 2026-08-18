@@ -52,7 +52,7 @@ export function AppNav() {
                 to={item.to}
                 aria-label={item.title}
                 className={cn(
-                  "relative flex h-12 w-12 items-center justify-center rounded-full transition-transform duration-300 will-change-transform group-hover:w-28 group-hover:scale-105",
+                  "relative flex h-12 w-12 items-center justify-center rounded-full transition-transform duration-150 active:scale-95 sm:group-hover:w-28",
                   active && "w-28",
                 )}
                 style={{
@@ -63,10 +63,6 @@ export function AppNav() {
               >
                 <span
                   className="pointer-events-none absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                  style={{ backgroundImage: `linear-gradient(135deg, ${item.from}, ${item.to_})` }}
-                />
-                <span
-                  className="pointer-events-none absolute inset-0 rounded-full opacity-0 blur-lg transition-opacity duration-300 group-hover:opacity-60"
                   style={{ backgroundImage: `linear-gradient(135deg, ${item.from}, ${item.to_})` }}
                 />
                 <span

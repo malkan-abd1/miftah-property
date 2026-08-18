@@ -5,7 +5,7 @@ function GlassCard({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="glass-card"
       className={cn(
-        "relative flex flex-col gap-5 overflow-hidden rounded-3xl border border-[var(--glass-ring)] bg-[var(--glass-tint)] py-5 text-card-foreground shadow-[var(--glass-shadow)] backdrop-blur-2xl",
+        "relative flex flex-col gap-5 overflow-hidden rounded-3xl border border-[var(--glass-ring)] bg-[color-mix(in_oklab,var(--color-card)_92%,transparent)] py-5 text-card-foreground shadow-[var(--glass-shadow)]",
         className,
       )}
       {...props}

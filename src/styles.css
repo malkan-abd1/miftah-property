@@ -71,12 +71,11 @@
   html {
     -webkit-tap-highlight-color: transparent;
     -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+    text-rendering: auto;
   }
 
   body {
     background: var(--app-gradient);
-    background-attachment: fixed;
     color: var(--color-foreground);
     font-family: var(--font-sans);
     min-height: 100dvh;
@@ -109,8 +108,18 @@ gpt-eng-badge,
   background: var(--glass-tint);
   border: 1px solid var(--glass-ring);
   box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(16px) saturate(160%);
   border-radius: var(--radius-2xl);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 @utility glass-field {

@@ -293,7 +293,7 @@ function PropertiesPage() {
         <div className="grid gap-3 sm:grid-cols-2">
           {results.map((p) => (
             <Link key={p.id} to="/properties/$id" params={{ id: p.id }} className="block">
-              <GlassCard className="h-full transition-transform hover:scale-[1.01]">
+              <GlassCard className="h-full">
                 <GlassCardContent className="flex gap-3 pt-5">
                   {p.photoUrls?.[0] ? (
                     <img src={p.photoUrls[0]} alt={p.title ?? "عقار"} loading="lazy" className="size-24 rounded-xl object-cover" />
