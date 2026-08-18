@@ -114,6 +114,7 @@ export const createProperty = createServerFn({ method: "POST" })
   .inputValidator((d) => z.object({ token: z.string(), values: propertySchema }).parse(d))
   .handler(async ({ data }) => {
     const s = await requireManager(data.token);
+    assertOwnedPaths(s.ws, data.values);
     const db = await admin();
     const { data: row, error } = await db
       .from("properties")
@@ -144,6 +145,7 @@ export const updateProperty = createServerFn({ method: "POST" })
   )
   .handler(async ({ data }) => {
     const s = await requireManager(data.token);
+    assertOwnedPaths(s.ws, data.values);
     const db = await admin();
     const { data: row, error } = await db
       .from("properties")
