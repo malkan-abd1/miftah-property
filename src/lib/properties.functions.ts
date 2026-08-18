@@ -9,6 +9,15 @@ async function admin() {
   return supabaseAdmin;
 }
 
+function assertOwnedPaths(ws: string, values: { photos: string[]; videos: string[] }) {
+  const all = [...(values.photos ?? []), ...(values.videos ?? [])];
+  for (const p of all) {
+    if (!p.startsWith(`${ws}/`) || p.includes("..")) {
+      throw new Error("مسار ملف غير صالح");
+    }
+  }
+}
+
 async function signPaths(paths: string[]) {
   if (!paths.length) return [];
   const db = await admin();
