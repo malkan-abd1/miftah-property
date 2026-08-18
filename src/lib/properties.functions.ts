@@ -9,6 +9,15 @@ async function admin() {
   return supabaseAdmin;
 }
 
+function assertOwnedPaths(ws: string, values: { photos: string[]; videos: string[] }) {
+  const all = [...(values.photos ?? []), ...(values.videos ?? [])];
+  for (const p of all) {
+    if (!p.startsWith(`${ws}/`) || p.includes("..")) {
+      throw new Error("مسار ملف غير صالح");
+    }
+  }
+}
+
 async function signPaths(paths: string[]) {
   if (!paths.length) return [];
   const db = await admin();
@@ -105,6 +114,7 @@ export const createProperty = createServerFn({ method: "POST" })
   .inputValidator((d) => z.object({ token: z.string(), values: propertySchema }).parse(d))
   .handler(async ({ data }) => {
     const s = await requireManager(data.token);
+    assertOwnedPaths(s.ws, data.values);
     const db = await admin();
     const { data: row, error } = await db
       .from("properties")
@@ -135,6 +145,7 @@ export const updateProperty = createServerFn({ method: "POST" })
   )
   .handler(async ({ data }) => {
     const s = await requireManager(data.token);
+    assertOwnedPaths(s.ws, data.values);
     const db = await admin();
     const { data: row, error } = await db
       .from("properties")
