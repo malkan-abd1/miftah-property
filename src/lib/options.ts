@@ -88,3 +88,49 @@ export type PropertyRecord = {
   photoUrls?: string[];
   videoUrls?: string[];
 };
+
+export const REQUEST_STATUSES = ["جديد", "قيد المتابعة", "مغلق", "تم التحويل لصفقة"] as const;
+export const CONTACT_METHODS = ["واتساب", "اتصال", "زيارة"] as const;
+
+export type ClientRequestRecord = {
+  id: string;
+  workspace_id: string;
+  ref_no: number;
+  client_name: string;
+  client_phone: string | null;
+  contact_method: string | null;
+  listing_type: string | null;
+  property_type: string | null;
+  governorate: string | null;
+  area: string | null;
+  min_price: number | null;
+  max_price: number | null;
+  currency: string;
+  min_size: number | null;
+  max_size: number | null;
+  rooms: number | null;
+  finishing: string | null;
+  facade: string | null;
+  features: string[];
+  status: string;
+  notes: string | null;
+  next_followup: string | null;
+  created_by: string | null;
+  updated_by: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type FollowupRecord = {
+  id: string;
+  request_id: string;
+  note: string;
+  actor_name: string | null;
+  next_followup: string | null;
+  created_at: string;
+};
+
+export type RequestValues = Omit<
+  ClientRequestRecord,
+  "id" | "workspace_id" | "ref_no" | "created_by" | "updated_by" | "created_at" | "updated_at"
+>;
