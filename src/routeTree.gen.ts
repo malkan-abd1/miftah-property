@@ -14,6 +14,7 @@ import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as PropertiesIndexRouteImport } from './routes/properties/index'
 import { Route as PropertiesIdRouteImport } from './routes/properties/$id'
 import { Route as PropertiesNewRouteImport } from './routes/properties/new'
+import { Route as RequestsIndexRouteImport } from './routes/requests/index'
 import { Route as PropertiesIdEditRouteImport } from './routes/properties/$id.edit'
 
 const IndexRoute = IndexRouteImport.update({
@@ -41,6 +42,11 @@ const PropertiesNewRoute = PropertiesNewRouteImport.update({
   path: '/properties/new',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RequestsIndexRoute = RequestsIndexRouteImport.update({
+  id: '/requests/',
+  path: '/requests/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PropertiesIdEditRoute = PropertiesIdEditRouteImport.update({
   id: '/edit',
   path: '/edit',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/properties/$id': typeof PropertiesIdRouteWithChildren
   '/properties/new': typeof PropertiesNewRoute
   '/properties/': typeof PropertiesIndexRoute
+  '/requests/': typeof RequestsIndexRoute
   '/properties/$id/edit': typeof PropertiesIdEditRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/properties/$id': typeof PropertiesIdRouteWithChildren
   '/properties/new': typeof PropertiesNewRoute
   '/properties': typeof PropertiesIndexRoute
+  '/requests': typeof RequestsIndexRoute
   '/properties/$id/edit': typeof PropertiesIdEditRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/properties/$id': typeof PropertiesIdRouteWithChildren
   '/properties/new': typeof PropertiesNewRoute
   '/properties/': typeof PropertiesIndexRoute
+  '/requests/': typeof RequestsIndexRoute
   '/properties/$id/edit': typeof PropertiesIdEditRoute
 }
 export interface FileRouteTypes {
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
     | '/properties/$id'
     | '/properties/new'
     | '/properties/'
+    | '/requests/'
     | '/properties/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/properties/$id'
     | '/properties/new'
     | '/properties'
+    | '/requests'
     | '/properties/$id/edit'
   id:
     | '__root__'
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/properties/$id'
     | '/properties/new'
     | '/properties/'
+    | '/requests/'
     | '/properties/$id/edit'
   fileRoutesById: FileRoutesById
 }
@@ -105,6 +117,7 @@ export interface RootRouteChildren {
   PropertiesIdRoute: typeof PropertiesIdRouteWithChildren
   PropertiesNewRoute: typeof PropertiesNewRoute
   PropertiesIndexRoute: typeof PropertiesIndexRoute
+  RequestsIndexRoute: typeof RequestsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -144,6 +157,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PropertiesNewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/requests/': {
+      id: '/requests/'
+      path: '/requests'
+      fullPath: '/requests/'
+      preLoaderRoute: typeof RequestsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/properties/$id/edit': {
       id: '/properties/$id/edit'
       path: '/edit'
@@ -172,6 +192,7 @@ const rootRouteChildren: RootRouteChildren = {
   PropertiesIdRoute: PropertiesIdRouteWithChildren,
   PropertiesNewRoute: PropertiesNewRoute,
   PropertiesIndexRoute: PropertiesIndexRoute,
+  RequestsIndexRoute: RequestsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
