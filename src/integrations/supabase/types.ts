@@ -23,6 +23,7 @@ export type Database = {
           detail: string | null
           id: string
           property_id: string | null
+          request_id: string | null
           workspace_id: string
         }
         Insert: {
@@ -33,6 +34,7 @@ export type Database = {
           detail?: string | null
           id?: string
           property_id?: string | null
+          request_id?: string | null
           workspace_id: string
         }
         Update: {
@@ -43,11 +45,114 @@ export type Database = {
           detail?: string | null
           id?: string
           property_id?: string | null
+          request_id?: string | null
           workspace_id?: string
         }
         Relationships: [
           {
+            foreignKeyName: "activity_logs_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "client_requests"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "activity_logs_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      client_requests: {
+        Row: {
+          area: string | null
+          client_name: string
+          client_phone: string | null
+          contact_method: string | null
+          created_at: string
+          created_by: string | null
+          currency: string
+          facade: string | null
+          features: string[]
+          finishing: string | null
+          governorate: string | null
+          id: string
+          listing_type: string | null
+          max_price: number | null
+          max_size: number | null
+          min_price: number | null
+          min_size: number | null
+          next_followup: string | null
+          notes: string | null
+          property_type: string | null
+          ref_no: number
+          rooms: number | null
+          status: string
+          updated_at: string
+          updated_by: string | null
+          workspace_id: string
+        }
+        Insert: {
+          area?: string | null
+          client_name: string
+          client_phone?: string | null
+          contact_method?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          facade?: string | null
+          features?: string[]
+          finishing?: string | null
+          governorate?: string | null
+          id?: string
+          listing_type?: string | null
+          max_price?: number | null
+          max_size?: number | null
+          min_price?: number | null
+          min_size?: number | null
+          next_followup?: string | null
+          notes?: string | null
+          property_type?: string | null
+          ref_no?: number
+          rooms?: number | null
+          status?: string
+          updated_at?: string
+          updated_by?: string | null
+          workspace_id: string
+        }
+        Update: {
+          area?: string | null
+          client_name?: string
+          client_phone?: string | null
+          contact_method?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          facade?: string | null
+          features?: string[]
+          finishing?: string | null
+          governorate?: string | null
+          id?: string
+          listing_type?: string | null
+          max_price?: number | null
+          max_size?: number | null
+          min_price?: number | null
+          min_size?: number | null
+          next_followup?: string | null
+          notes?: string | null
+          property_type?: string | null
+          ref_no?: number
+          rooms?: number | null
+          status?: string
+          updated_at?: string
+          updated_by?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_requests_workspace_id_fkey"
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "workspaces"
@@ -200,6 +305,51 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "properties_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      request_followups: {
+        Row: {
+          actor_name: string | null
+          created_at: string
+          id: string
+          next_followup: string | null
+          note: string
+          request_id: string
+          workspace_id: string
+        }
+        Insert: {
+          actor_name?: string | null
+          created_at?: string
+          id?: string
+          next_followup?: string | null
+          note: string
+          request_id: string
+          workspace_id: string
+        }
+        Update: {
+          actor_name?: string | null
+          created_at?: string
+          id?: string
+          next_followup?: string | null
+          note?: string
+          request_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "request_followups_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "client_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "request_followups_workspace_id_fkey"
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "workspaces"
