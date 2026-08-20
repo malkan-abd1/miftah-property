@@ -15,8 +15,6 @@ import { Route as PropertiesIndexRouteImport } from './routes/properties/index'
 import { Route as PropertiesIdRouteImport } from './routes/properties/$id'
 import { Route as PropertiesNewRouteImport } from './routes/properties/new'
 import { Route as RequestsIndexRouteImport } from './routes/requests/index'
-import { Route as RequestsIdRouteImport } from './routes/requests/$id'
-import { Route as RequestsNewRouteImport } from './routes/requests/new'
 import { Route as PropertiesIdEditRouteImport } from './routes/properties/$id.edit'
 
 const IndexRoute = IndexRouteImport.update({
@@ -49,16 +47,6 @@ const RequestsIndexRoute = RequestsIndexRouteImport.update({
   path: '/requests/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RequestsIdRoute = RequestsIdRouteImport.update({
-  id: '/requests/$id',
-  path: '/requests/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RequestsNewRoute = RequestsNewRouteImport.update({
-  id: '/requests/new',
-  path: '/requests/new',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PropertiesIdEditRoute = PropertiesIdEditRouteImport.update({
   id: '/edit',
   path: '/edit',
@@ -70,8 +58,6 @@ export interface FileRoutesByFullPath {
   '/settings': typeof SettingsRoute
   '/properties/$id': typeof PropertiesIdRouteWithChildren
   '/properties/new': typeof PropertiesNewRoute
-  '/requests/$id': typeof RequestsIdRoute
-  '/requests/new': typeof RequestsNewRoute
   '/properties/': typeof PropertiesIndexRoute
   '/requests/': typeof RequestsIndexRoute
   '/properties/$id/edit': typeof PropertiesIdEditRoute
@@ -81,8 +67,6 @@ export interface FileRoutesByTo {
   '/settings': typeof SettingsRoute
   '/properties/$id': typeof PropertiesIdRouteWithChildren
   '/properties/new': typeof PropertiesNewRoute
-  '/requests/$id': typeof RequestsIdRoute
-  '/requests/new': typeof RequestsNewRoute
   '/properties': typeof PropertiesIndexRoute
   '/requests': typeof RequestsIndexRoute
   '/properties/$id/edit': typeof PropertiesIdEditRoute
@@ -93,8 +77,6 @@ export interface FileRoutesById {
   '/settings': typeof SettingsRoute
   '/properties/$id': typeof PropertiesIdRouteWithChildren
   '/properties/new': typeof PropertiesNewRoute
-  '/requests/$id': typeof RequestsIdRoute
-  '/requests/new': typeof RequestsNewRoute
   '/properties/': typeof PropertiesIndexRoute
   '/requests/': typeof RequestsIndexRoute
   '/properties/$id/edit': typeof PropertiesIdEditRoute
@@ -106,8 +88,6 @@ export interface FileRouteTypes {
     | '/settings'
     | '/properties/$id'
     | '/properties/new'
-    | '/requests/$id'
-    | '/requests/new'
     | '/properties/'
     | '/requests/'
     | '/properties/$id/edit'
@@ -117,8 +97,6 @@ export interface FileRouteTypes {
     | '/settings'
     | '/properties/$id'
     | '/properties/new'
-    | '/requests/$id'
-    | '/requests/new'
     | '/properties'
     | '/requests'
     | '/properties/$id/edit'
@@ -128,8 +106,6 @@ export interface FileRouteTypes {
     | '/settings'
     | '/properties/$id'
     | '/properties/new'
-    | '/requests/$id'
-    | '/requests/new'
     | '/properties/'
     | '/requests/'
     | '/properties/$id/edit'
@@ -140,8 +116,6 @@ export interface RootRouteChildren {
   SettingsRoute: typeof SettingsRoute
   PropertiesIdRoute: typeof PropertiesIdRouteWithChildren
   PropertiesNewRoute: typeof PropertiesNewRoute
-  RequestsIdRoute: typeof RequestsIdRoute
-  RequestsNewRoute: typeof RequestsNewRoute
   PropertiesIndexRoute: typeof PropertiesIndexRoute
   RequestsIndexRoute: typeof RequestsIndexRoute
 }
@@ -190,20 +164,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RequestsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/requests/$id': {
-      id: '/requests/$id'
-      path: '/requests/$id'
-      fullPath: '/requests/$id'
-      preLoaderRoute: typeof RequestsIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/requests/new': {
-      id: '/requests/new'
-      path: '/requests/new'
-      fullPath: '/requests/new'
-      preLoaderRoute: typeof RequestsNewRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/properties/$id/edit': {
       id: '/properties/$id/edit'
       path: '/edit'
@@ -231,8 +191,6 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsRoute: SettingsRoute,
   PropertiesIdRoute: PropertiesIdRouteWithChildren,
   PropertiesNewRoute: PropertiesNewRoute,
-  RequestsIdRoute: RequestsIdRoute,
-  RequestsNewRoute: RequestsNewRoute,
   PropertiesIndexRoute: PropertiesIndexRoute,
   RequestsIndexRoute: RequestsIndexRoute,
 }
