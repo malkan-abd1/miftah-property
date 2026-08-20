@@ -77,6 +77,7 @@ export type Database = {
           facade: string | null
           features: string[]
           finishing: string | null
+          form_id: string | null
           governorate: string | null
           id: string
           listing_type: string | null
@@ -89,6 +90,9 @@ export type Database = {
           property_type: string | null
           ref_no: number
           rooms: number | null
+          selected_property_ids: string[]
+          sent_at: string | null
+          source: string
           status: string
           updated_at: string
           updated_by: string | null
@@ -105,6 +109,7 @@ export type Database = {
           facade?: string | null
           features?: string[]
           finishing?: string | null
+          form_id?: string | null
           governorate?: string | null
           id?: string
           listing_type?: string | null
@@ -117,6 +122,9 @@ export type Database = {
           property_type?: string | null
           ref_no?: number
           rooms?: number | null
+          selected_property_ids?: string[]
+          sent_at?: string | null
+          source?: string
           status?: string
           updated_at?: string
           updated_by?: string | null
@@ -133,6 +141,7 @@ export type Database = {
           facade?: string | null
           features?: string[]
           finishing?: string | null
+          form_id?: string | null
           governorate?: string | null
           id?: string
           listing_type?: string | null
@@ -145,12 +154,22 @@ export type Database = {
           property_type?: string | null
           ref_no?: number
           rooms?: number | null
+          selected_property_ids?: string[]
+          sent_at?: string | null
+          source?: string
           status?: string
           updated_at?: string
           updated_by?: string | null
           workspace_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "client_requests_form_id_fkey"
+            columns: ["form_id"]
+            isOneToOne: false
+            referencedRelation: "request_forms"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "client_requests_workspace_id_fkey"
             columns: ["workspace_id"]
@@ -350,6 +369,50 @@ export type Database = {
           },
           {
             foreignKeyName: "request_followups_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      request_forms: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          intro: string | null
+          is_active: boolean
+          title: string
+          token: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          intro?: string | null
+          is_active?: boolean
+          title?: string
+          token: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          intro?: string | null
+          is_active?: boolean
+          title?: string
+          token?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "request_forms_workspace_id_fkey"
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "workspaces"
