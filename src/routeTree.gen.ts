@@ -16,6 +16,7 @@ import { Route as PropertiesIdRouteImport } from './routes/properties/$id'
 import { Route as PropertiesNewRouteImport } from './routes/properties/new'
 import { Route as RequestsIndexRouteImport } from './routes/requests/index'
 import { Route as RequestsNewRouteImport } from './routes/requests/new'
+import { Route as FormTokenThanksRouteImport } from './routes/form/$token/thanks'
 import { Route as PropertiesIdEditRouteImport } from './routes/properties/$id.edit'
 
 const IndexRoute = IndexRouteImport.update({
@@ -53,6 +54,11 @@ const RequestsNewRoute = RequestsNewRouteImport.update({
   path: '/requests/new',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FormTokenThanksRoute = FormTokenThanksRouteImport.update({
+  id: '/form/$token/thanks',
+  path: '/form/$token/thanks',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PropertiesIdEditRoute = PropertiesIdEditRouteImport.update({
   id: '/edit',
   path: '/edit',
@@ -67,6 +73,7 @@ export interface FileRoutesByFullPath {
   '/requests/new': typeof RequestsNewRoute
   '/properties/': typeof PropertiesIndexRoute
   '/requests/': typeof RequestsIndexRoute
+  '/form/$token/thanks': typeof FormTokenThanksRoute
   '/properties/$id/edit': typeof PropertiesIdEditRoute
 }
 export interface FileRoutesByTo {
@@ -77,6 +84,7 @@ export interface FileRoutesByTo {
   '/requests/new': typeof RequestsNewRoute
   '/properties': typeof PropertiesIndexRoute
   '/requests': typeof RequestsIndexRoute
+  '/form/$token/thanks': typeof FormTokenThanksRoute
   '/properties/$id/edit': typeof PropertiesIdEditRoute
 }
 export interface FileRoutesById {
@@ -88,6 +96,7 @@ export interface FileRoutesById {
   '/requests/new': typeof RequestsNewRoute
   '/properties/': typeof PropertiesIndexRoute
   '/requests/': typeof RequestsIndexRoute
+  '/form/$token/thanks': typeof FormTokenThanksRoute
   '/properties/$id/edit': typeof PropertiesIdEditRoute
 }
 export interface FileRouteTypes {
@@ -100,6 +109,7 @@ export interface FileRouteTypes {
     | '/requests/new'
     | '/properties/'
     | '/requests/'
+    | '/form/$token/thanks'
     | '/properties/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -110,6 +120,7 @@ export interface FileRouteTypes {
     | '/requests/new'
     | '/properties'
     | '/requests'
+    | '/form/$token/thanks'
     | '/properties/$id/edit'
   id:
     | '__root__'
@@ -120,6 +131,7 @@ export interface FileRouteTypes {
     | '/requests/new'
     | '/properties/'
     | '/requests/'
+    | '/form/$token/thanks'
     | '/properties/$id/edit'
   fileRoutesById: FileRoutesById
 }
@@ -131,6 +143,7 @@ export interface RootRouteChildren {
   RequestsNewRoute: typeof RequestsNewRoute
   PropertiesIndexRoute: typeof PropertiesIndexRoute
   RequestsIndexRoute: typeof RequestsIndexRoute
+  FormTokenThanksRoute: typeof FormTokenThanksRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -184,6 +197,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RequestsNewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/form/$token/thanks': {
+      id: '/form/$token/thanks'
+      path: '/form/$token/thanks'
+      fullPath: '/form/$token/thanks'
+      preLoaderRoute: typeof FormTokenThanksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/properties/$id/edit': {
       id: '/properties/$id/edit'
       path: '/edit'
@@ -214,6 +234,7 @@ const rootRouteChildren: RootRouteChildren = {
   RequestsNewRoute: RequestsNewRoute,
   PropertiesIndexRoute: PropertiesIndexRoute,
   RequestsIndexRoute: RequestsIndexRoute,
+  FormTokenThanksRoute: FormTokenThanksRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
