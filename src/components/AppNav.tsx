@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, PlusCircle, Settings, LogOut } from "lucide-react";
+import { Home, PlusCircle, Settings, LogOut, Users } from "lucide-react";
 import { useSession } from "@/lib/session";
 import { LiquidButton } from "@/components/ui/liquid-glass-button";
 import { cn } from "@/lib/utils";
