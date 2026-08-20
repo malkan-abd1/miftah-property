@@ -10,18 +10,26 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as PropertiesIndexRouteImport } from './routes/properties/index'
 import { Route as PropertiesIdRouteImport } from './routes/properties/$id'
 import { Route as PropertiesNewRouteImport } from './routes/properties/new'
 import { Route as RequestsIndexRouteImport } from './routes/requests/index'
+import { Route as RequestsIdRouteImport } from './routes/requests/$id'
 import { Route as RequestsNewRouteImport } from './routes/requests/new'
+import { Route as FormTokenIndexRouteImport } from './routes/form/$token/index'
 import { Route as FormTokenThanksRouteImport } from './routes/form/$token/thanks'
 import { Route as PropertiesIdEditRouteImport } from './routes/properties/$id.edit'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsRoute = SettingsRouteImport.update({
@@ -49,9 +57,19 @@ const RequestsIndexRoute = RequestsIndexRouteImport.update({
   path: '/requests/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RequestsIdRoute = RequestsIdRouteImport.update({
+  id: '/requests/$id',
+  path: '/requests/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RequestsNewRoute = RequestsNewRouteImport.update({
   id: '/requests/new',
   path: '/requests/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FormTokenIndexRoute = FormTokenIndexRouteImport.update({
+  id: '/form/$token/',
+  path: '/form/$token/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FormTokenThanksRoute = FormTokenThanksRouteImport.update({
@@ -67,83 +85,104 @@ const PropertiesIdEditRoute = PropertiesIdEditRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
   '/settings': typeof SettingsRoute
   '/properties/$id': typeof PropertiesIdRouteWithChildren
   '/properties/new': typeof PropertiesNewRoute
+  '/requests/$id': typeof RequestsIdRoute
   '/requests/new': typeof RequestsNewRoute
   '/properties/': typeof PropertiesIndexRoute
   '/requests/': typeof RequestsIndexRoute
   '/form/$token/thanks': typeof FormTokenThanksRoute
   '/properties/$id/edit': typeof PropertiesIdEditRoute
+  '/form/$token/': typeof FormTokenIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
   '/settings': typeof SettingsRoute
   '/properties/$id': typeof PropertiesIdRouteWithChildren
   '/properties/new': typeof PropertiesNewRoute
+  '/requests/$id': typeof RequestsIdRoute
   '/requests/new': typeof RequestsNewRoute
   '/properties': typeof PropertiesIndexRoute
   '/requests': typeof RequestsIndexRoute
   '/form/$token/thanks': typeof FormTokenThanksRoute
   '/properties/$id/edit': typeof PropertiesIdEditRoute
+  '/form/$token': typeof FormTokenIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
   '/settings': typeof SettingsRoute
   '/properties/$id': typeof PropertiesIdRouteWithChildren
   '/properties/new': typeof PropertiesNewRoute
+  '/requests/$id': typeof RequestsIdRoute
   '/requests/new': typeof RequestsNewRoute
   '/properties/': typeof PropertiesIndexRoute
   '/requests/': typeof RequestsIndexRoute
   '/form/$token/thanks': typeof FormTokenThanksRoute
   '/properties/$id/edit': typeof PropertiesIdEditRoute
+  '/form/$token/': typeof FormTokenIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/dashboard'
     | '/settings'
     | '/properties/$id'
     | '/properties/new'
+    | '/requests/$id'
     | '/requests/new'
     | '/properties/'
     | '/requests/'
     | '/form/$token/thanks'
     | '/properties/$id/edit'
+    | '/form/$token/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/dashboard'
     | '/settings'
     | '/properties/$id'
     | '/properties/new'
+    | '/requests/$id'
     | '/requests/new'
     | '/properties'
     | '/requests'
     | '/form/$token/thanks'
     | '/properties/$id/edit'
+    | '/form/$token'
   id:
     | '__root__'
     | '/'
+    | '/dashboard'
     | '/settings'
     | '/properties/$id'
     | '/properties/new'
+    | '/requests/$id'
     | '/requests/new'
     | '/properties/'
     | '/requests/'
     | '/form/$token/thanks'
     | '/properties/$id/edit'
+    | '/form/$token/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRoute
   SettingsRoute: typeof SettingsRoute
   PropertiesIdRoute: typeof PropertiesIdRouteWithChildren
   PropertiesNewRoute: typeof PropertiesNewRoute
+  RequestsIdRoute: typeof RequestsIdRoute
   RequestsNewRoute: typeof RequestsNewRoute
   PropertiesIndexRoute: typeof PropertiesIndexRoute
   RequestsIndexRoute: typeof RequestsIndexRoute
   FormTokenThanksRoute: typeof FormTokenThanksRoute
+  FormTokenIndexRoute: typeof FormTokenIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -153,6 +192,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings': {
@@ -190,11 +236,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RequestsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/requests/$id': {
+      id: '/requests/$id'
+      path: '/requests/$id'
+      fullPath: '/requests/$id'
+      preLoaderRoute: typeof RequestsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/requests/new': {
       id: '/requests/new'
       path: '/requests/new'
       fullPath: '/requests/new'
       preLoaderRoute: typeof RequestsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/form/$token/': {
+      id: '/form/$token/'
+      path: '/form/$token'
+      fullPath: '/form/$token/'
+      preLoaderRoute: typeof FormTokenIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/form/$token/thanks': {
@@ -228,13 +288,16 @@ const PropertiesIdRouteWithChildren = PropertiesIdRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRoute,
   SettingsRoute: SettingsRoute,
   PropertiesIdRoute: PropertiesIdRouteWithChildren,
   PropertiesNewRoute: PropertiesNewRoute,
+  RequestsIdRoute: RequestsIdRoute,
   RequestsNewRoute: RequestsNewRoute,
   PropertiesIndexRoute: PropertiesIndexRoute,
   RequestsIndexRoute: RequestsIndexRoute,
   FormTokenThanksRoute: FormTokenThanksRoute,
+  FormTokenIndexRoute: FormTokenIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

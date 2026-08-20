@@ -2,13 +2,13 @@ import { useState } from "react";
 import { createFileRoute, useNavigate, useParams } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Loader2 } from "lucide-react";
+import { Loader as Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png.asset.json";
 import { PublicClientForm } from "@/components/PublicClientForm";
 import { getPublicForm, submitClientForm } from "@/lib/public-forms.functions";
 
-export const Route = createFileRoute("/form/$token")({
+export const Route = createFileRoute("/form/$token/")({
   head: () => ({
     meta: [
       { title: "استمارة طلب عقار — مفتاح" },

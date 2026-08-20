@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, PlusCircle, Settings, LogOut } from "lucide-react";
+import { Hop as Home, CirclePlus as PlusCircle, Settings, LogOut, LayoutDashboard, ClipboardList } from "lucide-react";
 import { useSession } from "@/lib/session";
 import { LiquidButton } from "@/components/ui/liquid-glass-button";
 import { cn } from "@/lib/utils";
@@ -15,13 +15,15 @@ type Item = {
 };
 
 const items: Item[] = [
+  { title: "لوحة التحكم", to: "/dashboard", icon: <LayoutDashboard />, from: "#FF9966", to_: "#FF5E62" },
   { title: "العقارات", to: "/properties", icon: <Home />, from: "#56CCF2", to_: "#2F80ED" },
+  { title: "الطلبات", to: "/requests", icon: <ClipboardList />, from: "#80FF72", to_: "#7EE8FA" },
   {
     title: "إضافة",
     to: "/properties/new",
     icon: <PlusCircle />,
-    from: "#80FF72",
-    to_: "#7EE8FA",
+    from: "#a955ff",
+    to_: "#ea51ff",
     managerOnly: true,
   },
   {
@@ -41,11 +43,17 @@ export function AppNav() {
 
   const visible = items.filter((i) => !i.managerOnly || session.role === "manager");
 
+  const isActive = (to: string) => {
+    if (to === "/properties") return pathname === "/properties" || pathname.startsWith("/properties/");
+    if (to === "/requests") return pathname === "/requests" || pathname.startsWith("/requests/");
+    return pathname === to;
+  };
+
   return (
     <nav className="fixed inset-x-0 bottom-0 z-40 flex justify-center pb-[max(0.75rem,env(safe-area-inset-bottom))]">
       <ul className="glass-panel flex items-center gap-2 rounded-full px-3 py-2">
         {visible.map((item) => {
-          const active = pathname === item.to;
+          const active = isActive(item.to);
           return (
             <li key={item.to} className="group relative">
               <Link

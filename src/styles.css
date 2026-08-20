@@ -102,14 +102,25 @@
 }
 
 
-/* hide any Lovable badge globally */
+/* hide any Lovable or Bolt badge globally */
 #lovable-badge,
 [id*="lovable-badge"],
 [class*="lovable-badge"],
 a[href*="lovable.dev/projects"],
 a[href*="lovable.app?utm"],
 gpt-eng-badge,
-[data-lovable-badge] {
+[data-lovable-badge],
+#bolt-badge,
+[id*="bolt-badge"],
+[class*="bolt-badge"],
+[id*="boltBadge"],
+[class*="boltBadge"],
+a[href*="bolt.new"],
+a[href*="bolt.new?utm"],
+a[href*="bolt.diy"],
+[data-bolt-badge],
+[data-bolt-badge],
+iframe[src*="bolt.new"] {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
