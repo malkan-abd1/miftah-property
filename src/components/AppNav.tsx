@@ -16,6 +16,7 @@ type Item = {
 
 const items: Item[] = [
   { title: "العقارات", to: "/properties", icon: <Home />, from: "#56CCF2", to_: "#2F80ED" },
+  { title: "الطلبات", to: "/requests", icon: <Users />, from: "#FFB75E", to_: "#ED8F03" },
   {
     title: "إضافة",
     to: "/properties/new",
