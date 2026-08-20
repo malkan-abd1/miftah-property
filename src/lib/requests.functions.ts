@@ -240,3 +240,120 @@ export const addFollowup = createServerFn({ method: "POST" })
     });
     return { ok: true };
   });
+
+export const sendSelectedProperties = createServerFn({ method: "POST" })
+  .inputValidator((d) =>
+    z
+      .object({
+        token: z.string(),
+        id: z.string(),
+        property_ids: z.array(z.string()).default([]),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data }) => {
+    const s = await verifySession(data.token);
+    const db = await admin();
+    const { data: req } = await db
+      .from("client_requests")
+      .select("id, ref_no, client_name")
+      .eq("workspace_id", s.ws)
+      .eq("id", data.id)
+      .maybeSingle();
+    if (!req) throw new Error("الطلب غير موجود");
+
+    const { error } = await db
+      .from("client_requests")
+      .update({
+        selected_property_ids: data.property_ids,
+        sent_at: new Date().toISOString(),
+        updated_by: s.name,
+      })
+      .eq("id", data.id)
+      .eq("workspace_id", s.ws);
+    if (error) throw new Error(error.message);
+
+    await db.from("activity_logs").insert({
+      workspace_id: s.ws,
+      actor_name: s.name,
+      actor_role: s.role,
+      action: "إرسال عروض للعميل",
+      detail: `طلب رقم ${req.ref_no} — ${data.property_ids.length} عقار`,
+      request_id: data.id,
+    });
+    return { ok: true };
+  });
+
+export const getDashboardStats = createServerFn({ method: "GET" })
+  .inputValidator((d) => z.object({ token: z.string() }).parse(d))
+  .handler(async ({ data }) => {
+    const s = await verifySession(data.token);
+    const db = await admin();
+    const ws = s.ws;
+
+    const [props, reqs, followups, activity, forms] = await Promise.all([
+      db.from("properties").select("id, status, created_at").eq("workspace_id", ws),
+      db
+        .from("client_requests")
+        .select("id, status, created_at, next_followup, client_name, ref_no")
+        .eq("workspace_id", ws)
+        .order("created_at", { ascending: false }),
+      db
+        .from("request_followups")
+        .select("id, request_id, next_followup, note, actor_name, created_at")
+        .eq("workspace_id", ws)
+        .order("created_at", { ascending: false })
+        .limit(20),
+      db
+        .from("activity_logs")
+        .select("id, action, actor_name, actor_role, detail, created_at")
+        .eq("workspace_id", ws)
+        .order("created_at", { ascending: false })
+        .limit(10),
+      db.from("request_forms").select("id, title, is_active").eq("workspace_id", ws),
+    ]);
+
+    const properties = (props.data ?? []) as { id: string; status: string; created_at: string }[];
+    const requests = (reqs.data ?? []) as {
+      id: string;
+      status: string;
+      created_at: string;
+      next_followup: string | null;
+      client_name: string;
+      ref_no: number;
+    }[];
+    const allFollowups = (followups.data ?? []) as {
+      id: string;
+      request_id: string;
+      next_followup: string | null;
+      note: string;
+      actor_name: string | null;
+      created_at: string;
+    }[];
+    const activityRows = (activity.data ?? []) as {
+      id: string;
+      action: string;
+      actor_name: string | null;
+      actor_role: string | null;
+      detail: string | null;
+      created_at: string;
+    }[];
+
+    const today = new Date().toISOString().slice(0, 10);
+    const pendingFollowups = allFollowups.filter(
+      (f) => f.next_followup && f.next_followup <= today,
+    );
+
+    return {
+      propertyCount: properties.length,
+      availableCount: properties.filter((p) => p.status === "متاح").length,
+      soldCount: properties.filter((p) => p.status === "مباع").length,
+      rentedCount: properties.filter((p) => p.status === "مؤجر").length,
+      requestCount: requests.length,
+      newRequests: requests.filter((r) => r.status === "جديد").length,
+      pendingFollowups,
+      recentRequests: requests.slice(0, 5),
+      recentActivity: activityRows,
+      activeFormCount: (forms.data ?? []).filter((f: { is_active: boolean }) => f.is_active).length,
+    };
+  });
