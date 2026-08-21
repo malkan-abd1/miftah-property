@@ -1,7 +1,10 @@
 import { createStart, createCsrfMiddleware, createMiddleware } from "@tanstack/react-start";
 
 import { renderErrorPage } from "./lib/error-page";
-import { attachSupabaseAuth } from "@/integrations/supabase/auth-attacher";
+// This app uses its own HMAC workspace sessions (see src/lib/auth.server.ts), not
+// Supabase Auth. The generated attachSupabaseAuth middleware is intentionally NOT
+// registered: it instantiates the browser Supabase client on every serverFn call,
+// which throws "Missing Supabase environment variable(s)" in the client bundle.
 
 const errorMiddleware = createMiddleware().server(async ({ next }) => {
   try {
