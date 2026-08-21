@@ -19,7 +19,7 @@ export const Route = createFileRoute("/form/$token/")({
 });
 
 function PublicFormPage() {
-  const { token } = useParams({ from: "/form/$token" });
+  const { token } = useParams({ from: "/form/$token/" });
   const navigate = useNavigate();
   const fetchForm = useServerFn(getPublicForm);
   const submit = useServerFn(submitClientForm);
